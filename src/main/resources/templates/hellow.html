@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Spring MVC</title>
+</head>
+<body>
+    <h1>Messages:</h1>
+    <ul>
+        <li th:each="message : ${messages}" th:text="${message}"></li>
+    </ul>
+</body>
+</html>
