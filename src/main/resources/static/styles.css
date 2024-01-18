@@ -1,0 +1,82 @@
+/* styles.css */
+body {
+    margin: 0; /* Remove default margin */
+}
+
+.search-results {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.result-item {
+    margin: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 10px;
+    display: block; /* Make the anchor tag a block-level element */
+    text-decoration: none; /* Remove default anchor text decoration */
+    color: inherit; /* Inherit the text color from the parent */
+}
+
+.result-item:hover {
+    background-color: #f5f5f5; /* Add a background color on hover for visual feedback */
+}
+
+.result-image {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.header-container {
+    text-align: center;
+    background-color: #F5C518; /* Set the background color */
+    padding: 20px;
+    color: #000000; /* Set text color to white */
+}
+
+.search-form {
+    border: 10px solid #000000;
+    border-left: 0px;
+    border-right: 0px;
+    padding: 0px;
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+form {
+    display: inline-block;    
+    padding: 10px;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.input-group {
+    display: flex;
+}
+
+input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}

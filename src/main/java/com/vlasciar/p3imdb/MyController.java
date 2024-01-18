@@ -7,6 +7,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MyController {
+
+    static class SearchResult {
+        private String textResult;
+        private String imageUrl;
+        private String textId;
+
+        public SearchResult(String textResult, String imageUrl, String textId) {
+            this.textResult = textResult;
+            this.imageUrl = imageUrl;   
+            this.textId = textId;        
+        }
+
+        public String getTextResult() {
+            return textResult;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public String getTextId() {
+            return textId;
+        }
+    }
 
     @GetMapping("/hellow")
     public String hellow(@RequestParam(required = false) String searchParam, Model model) throws IOException, InterruptedException {
@@ -35,21 +61,40 @@ public class MyController {
 
     ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(response.body());
-        List<String> messages=new ArrayList<>();;
+        List<SearchResult> searchResults=new ArrayList<>();;
         // Extract titles
         JsonNode dataNode = rootNode.get("results");
-        System.out.println(dataNode);
+        //System.out.println(dataNode);
         if (dataNode.isArray()) {
             for (JsonNode item : dataNode) {
+
                 if(item.get("title") != null){
-                    String title = item.get("title").asText();                
-                    messages.add(title);
+                    String title = item.get("title").asText();
+                    String id = item.get("id").asText();
+                    if(item.get("image") != null){
+                        String img = item.path("image").path("url").asText();                         
+                        searchResults.add(new SearchResult("title: "+title, img,"https://www.imdb.com"+id));
+                    }
+                    else searchResults.add(new SearchResult("title: "+title, "error","https://www.imdb.com"+id));
                 }
+
+                else if(item.get("name") != null){
+                    String title = item.get("name").asText();
+                    String id = item.get("id").asText();
+                    if(item.get("image") != null){
+                        String img = item.path("image").path("url").asText();                         
+                        searchResults.add(new SearchResult("name: "+title, img,"https://www.imdb.com"+id));
+                    }
+                    else searchResults.add(new SearchResult("name: "+title, "error","https://www.imdb.com"+id));
+                }
+
             }
         }
-        model.addAttribute("messages", messages);
-        System.out.println(messages);
+        model.addAttribute("searchResults", searchResults);
+        //System.out.println(messages);
     }
         return "hellow";  // This corresponds to "hellow.html"
     }
+
+    
 }
